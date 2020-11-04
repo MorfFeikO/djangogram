@@ -59,10 +59,18 @@ def activate(request, uidb64, token):
 
 def login(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = LoginForm(data=request.POST)
         print(form.errors.as_data())
         if form.is_valid():
-            return HttpResponse('You logged successfully')
+            return render(request, 'gram/profile.html')
     else:
         form = LoginForm()
         return render(request, 'gram/login.html', {'form': form})
+
+
+def profile(request):
+    return render(request, 'gram/profile.html')
+
+
+def profile_edit(request):
+    return HttpResponse('Profile edit page')
