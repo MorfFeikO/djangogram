@@ -4,7 +4,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -62,15 +62,17 @@ def login(request):
         form = LoginForm(data=request.POST)
         print(form.errors.as_data())
         if form.is_valid():
-            return render(request, 'gram/profile.html')
+            print(form.get_user())
+            return redirect('gram:profile')
     else:
         form = LoginForm()
         return render(request, 'gram/login.html', {'form': form})
 
 
 def profile(request):
-    return render(request, 'gram/profile.html')
+    args = {'user': request.user}
+    return render(request, 'gram/profile.html', args)
 
 
-def profile_edit(request):
-    return HttpResponse('Profile edit page')
+def edit(request):
+    return HttpResponse('Lets edit profile')
