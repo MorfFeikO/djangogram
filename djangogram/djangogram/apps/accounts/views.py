@@ -8,7 +8,10 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from .forms import SignUpForm, LoginForm
+from .forms import SignUpForm, EditProfileForm, EditUserProfileForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from .models import UserProfile
 
 
 UserModel = get_user_model()
@@ -16,7 +19,7 @@ UserModel = get_user_model()
 
 def signup(request):
     if request.method == 'GET':
-        return render(request, 'gram/signup.html')
+        return render(request, 'accounts/signup.html')
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         print(form.errors.as_data())
@@ -26,7 +29,7 @@ def signup(request):
             user.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your DJANGOGRAM account'
-            message = render_to_string('gram/acc_active_email.html', {
+            message = render_to_string('accounts/acc_active_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -40,7 +43,7 @@ def signup(request):
             return HttpResponse('FORM IS NOT VALID. Please Try again!')
     else:
         form = SignUpForm()
-        return render(request, 'gram/signup.html', {'form': form})
+        return render(request, 'accounts/signup.html', {'form': form})
 
 
 def activate(request, uidb64, token):
@@ -57,22 +60,36 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
-def login(request):
-    if request.method == 'POST':
-        form = LoginForm(data=request.POST)
-        print(form.errors.as_data())
-        if form.is_valid():
-            print(form.get_user())
-            return redirect('gram:profile')
-    else:
-        form = LoginForm()
-        return render(request, 'gram/login.html', {'form': form})
-
-
-def profile(request):
+def view_profile(request):
     args = {'user': request.user}
-    return render(request, 'gram/profile.html', args)
+    return render(request, 'accounts/profile.html', args)
 
 
-def edit(request):
-    return HttpResponse('Lets edit profile')
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        u_form = EditUserProfileForm(request.POST, instance=request.user.userprofile)
+        if form.is_valid() and u_form.is_valid():
+            form.save()
+            u_form.save()
+            return redirect('/accounts/profile/')
+    else:
+        form = EditProfileForm(instance=request.user)
+        u_form = EditUserProfileForm(instance=request.user.userprofile)
+        args = {'form': form, 'u_form': u_form}
+        return render(request, 'accounts/edit_profile.html', args)
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('/accounts/profile/')
+        else:
+            return redirect('/accounts/password/')
+    else:
+        form = PasswordChangeForm(user=request.user)
+        args = {'form': form}
+        return render(request, 'accounts/change_password.html', args)
