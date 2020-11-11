@@ -55,7 +55,7 @@ def activate(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account')
+        return redirect('/accounts/profile/edit')
     else:
         return HttpResponse('Activation link is invalid!')
 
@@ -68,7 +68,7 @@ def view_profile(request):
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
-        u_form = EditUserProfileForm(request.POST, instance=request.user.userprofile)
+        u_form = EditUserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
         if form.is_valid() and u_form.is_valid():
             form.save()
             u_form.save()

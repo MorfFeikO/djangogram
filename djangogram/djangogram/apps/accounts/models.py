@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='profile_image', blank=True)
-    bio = models.CharField(max_length=100, default='')
+    bio = models.CharField(max_length=250, default='')
 
     def __str__(self):
         return self.user.username
