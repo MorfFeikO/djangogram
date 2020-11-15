@@ -8,7 +8,48 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
 <body>
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">DJANGOGRAM</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07"
+                aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse" id="navbarsExample07">
+
+          <ul class="navbar-nav mr-auto">
+
+            <li class="nav-item active">
+              <a class="nav-link" href="#">View other users <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/accounts/profile/">Profile</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">My pics</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/accounts/edit/">Add new PIC</a>
+            </li>
+
+          </ul>
+
+          <ul class="nav justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link" href="/accounts/login/">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="/accounts/logout/">Logout</a>
+              </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
     {% block content %}
 
     {% endblock %}

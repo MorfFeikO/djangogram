@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from .forms import SignUpForm, EditProfileForm, EditUserProfileForm
+from .forms import SignUpForm, EditProfileForm, EditUserProfileForm, EditPictureForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from .models import UserProfile
@@ -78,6 +78,18 @@ def edit_profile(request):
         u_form = EditUserProfileForm(instance=request.user.userprofile)
         args = {'form': form, 'u_form': u_form}
         return render(request, 'accounts/edit_profile.html', args)
+
+
+def edit_picture(request):
+    if request.method == 'POST':
+        form = EditPictureForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('BINGO')
+    else:
+        form = EditPictureForm()
+        args = {'form': form}
+        return render(request, 'accounts/edit_picture.html', args)
 
 
 def change_password(request):

@@ -12,6 +12,10 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+class UserPicture(models.Model):
+    picture = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+
 def create_profile(sender, **kwargs):
     if kwargs['created']:
         user_profile = UserProfile.objects.create(user=kwargs['instance'])
