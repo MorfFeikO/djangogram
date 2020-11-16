@@ -8,9 +8,9 @@
 
         <p><a href="edit">Edit profile info</a></p>
 
-        <p>
-        <img src="{{ user.userprofile.image.url }}" alt="User's avatar" width="150" height="180">
-        </p>
+        {% if user.userprofile.image %}
+            <p><img src="{{ user.userprofile.image.url }}" alt="User's avatar" width="150" height="180"></p>
+        {% endif %}
 
         <p>
             <i> {{ user.userprofile.bio }} </i>
