@@ -18,12 +18,9 @@ UserModel = get_user_model()
 
 
 def signup(request):
-    if request.method == 'GET':
-        return render(request, 'accounts/signup.html')
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        print(form.errors.as_data())
-        if form.is_valid():
+        if form.is_valid():  # валидация формы. Как отловить или наладить, что не так?
             user = form.save(commit=False)
             user.is_active = False
             user.save()
@@ -40,8 +37,9 @@ def signup(request):
             email.send()
             return HttpResponse('Please confirm your email address to complete registration')
         else:
-            return HttpResponse('FORM IS NOT VALID. Please Try again!')
-    else:
+            args = form.errors.as_json()
+            return HttpResponse(args)
+    elif request.method == 'GET':
         form = SignUpForm()
         return render(request, 'accounts/signup.html', {'form': form})
 
@@ -73,6 +71,10 @@ def edit_profile(request):
             form.save()
             u_form.save()
             return redirect('/accounts/profile/')
+        else:
+            args = form.errors.as_json()
+            print(form.errors.as_data())
+            return HttpResponse(args)
     else:
         form = EditProfileForm(instance=request.user)
         u_form = EditUserProfileForm(instance=request.user.userprofile)
@@ -100,7 +102,7 @@ def change_password(request):
             update_session_auth_hash(request, form.user)
             return redirect('/accounts/profile/')
         else:
-            return redirect('/accounts/password/')
+            return redirect('/accounts/profile/password/')
     else:
         form = PasswordChangeForm(user=request.user)
         args = {'form': form}

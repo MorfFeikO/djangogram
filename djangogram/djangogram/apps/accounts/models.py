@@ -14,7 +14,7 @@ class UserProfile(models.Model):
 
 class UserPicture(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='profile_image/{{user.username}}', blank=True)
+    picture = models.ImageField(upload_to='profile_image', blank=True)
 
     def __str__(self):
         return self.user.username
