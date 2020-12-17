@@ -7,7 +7,7 @@ from .models import UserPicture, UserProfile, User
 import json
 from unittest import skip
 
-"""
+
 class TestUrls(SimpleTestCase):
 
     def test_view_profile_resolved(self):
@@ -29,7 +29,6 @@ class TestUrls(SimpleTestCase):
     def test_change_password_resolved(self):
         url = reverse('accounts:change_password')
         self.assertEqual(resolve(url).func, change_password)
-"""
 
 
 class TestViews(TestCase):

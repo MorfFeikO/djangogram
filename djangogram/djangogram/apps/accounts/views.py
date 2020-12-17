@@ -8,11 +8,12 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from .forms import SignUpForm, EditProfileForm, EditUserProfileForm, EditPictureForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-from .models import UserProfile
+from django.contrib.auth.decorators import login_required
 
+from .models import UserProfile
+from .forms import SignUpForm, EditProfileForm, EditUserProfileForm, EditPictureForm
 
 UserModel = get_user_model()
 
@@ -39,7 +40,7 @@ def signup(request):
         else:
             args = form.errors.as_json()
             return HttpResponse(args)
-    elif request.method == 'GET':
+    else:
         form = SignUpForm()
         return render(request, 'accounts/signup.html', {'form': form})
 
@@ -58,11 +59,13 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
+@login_required
 def view_profile(request):
     args = {'user': request.user}
     return render(request, 'accounts/profile.html', args)
 
 
+@login_required
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
@@ -73,7 +76,7 @@ def edit_profile(request):
             return redirect('/accounts/profile/')
         else:
             args = form.errors.as_json()
-            print(form.errors.as_data())
+            # print(form.errors.as_data())
             return HttpResponse(args)
     else:
         form = EditProfileForm(instance=request.user)
@@ -82,6 +85,7 @@ def edit_profile(request):
         return render(request, 'accounts/edit_profile.html', args)
 
 
+@login_required
 def edit_picture(request):
     if request.method == 'POST':
         form = EditPictureForm(request.POST, request.FILES)
@@ -94,6 +98,7 @@ def edit_picture(request):
         return render(request, 'accounts/edit_picture.html', args)
 
 
+@login_required
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
