@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %} User's list {% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if user_list %}
+
+            {% for u in user_list %}
+
+                <p>
+                    <a href="/accounts/profile/{{ u.username }}/">{{ u.first_name }} {{ u.last_name }}</a>
+                </p>
+
+            {% endfor %}
+
+        {% else %}
+
+            There is no registered users. Add some friends!
+
+        {% endif %}
+    </div>
+{% endblock %}

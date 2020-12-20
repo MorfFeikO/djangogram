@@ -13,8 +13,10 @@ class UserProfile(models.Model):
 
 
 class UserPicture(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    picture_title = models.CharField(max_length=200)
     picture = models.ImageField(upload_to='profile_image', blank=True)
+    pub_date = models.DateTimeField()
 
     def __str__(self):
         return self.user.username

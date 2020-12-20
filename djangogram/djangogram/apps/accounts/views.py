@@ -12,7 +12,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 
-from .models import UserProfile
+from .models import UserProfile, UserPicture
 from .forms import SignUpForm, EditProfileForm, EditUserProfileForm, EditPictureForm
 
 UserModel = get_user_model()
@@ -112,3 +112,33 @@ def change_password(request):
         form = PasswordChangeForm(user=request.user)
         args = {'form': form}
         return render(request, 'accounts/change_password.html', args)
+
+
+@login_required
+def profile_pictures(request):
+    picture_list = UserPicture.objects.filter(user=request.user).order_by('-pub_date')
+    return render(request, 'accounts/picture_list.html', {'picture_list': picture_list})
+
+
+@login_required
+def profile_list(request):
+    user_list = User.objects.order_by('username').all()
+    return render(request, 'accounts/user_list.html', {'user_list': user_list})
+
+
+@login_required
+def profile_view(request, username):
+    user = User.objects.get(username=username)
+    args = {'user': user}
+    return render(request, 'accounts/user_profile.html', args)
+
+
+def home(request):
+    return render(request, 'accounts/home.html')
+
+
+@login_required
+def pictures_view(request, username):
+    user = User.objects.get(username=username)
+    picture_list = UserPicture.objects.filter(user=user).order_by('-pub_date')
+    return render(request, 'accounts/picture_list.html', {'picture_list': picture_list})

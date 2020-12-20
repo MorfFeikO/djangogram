@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %} Edit profile {% endblock %}
+{% block title %} ADD pictures {% endblock %}
 
 {% block content %}
     <div class="container">
         <form enctype="multipart/form-data" method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-
             <input name="picture" type="file" />
             <p><input type="submit" value="Add Picture" id="submit"></p>
         </form>
