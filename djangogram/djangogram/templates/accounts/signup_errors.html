@@ -7,13 +7,13 @@
 <div class="container" style="margin-top: 50px;">  
         <div class="row justify-content-center">  
             <div class="col-md-5 shadow-sm p-3 mb-5 bg-white rounded">  
-                <h2>OOOPS, THE ERROR OCCURED!</h2>
-                {% for key, key_errors in form.errors.as_data.items %}
-                    {{ key }}
-                    {% for error in key_errors %}
-                        {{ error }}
+                <h4>OOOPS, THE ERROR OCCURED!</h4>
+
+                {% if form.errors %}
+                    {% for key, value in e.items %}
+                        {{ key }} {{ value }}
                     {% endfor %}
-                {% endfor %}
+                {% endif %}
             </div>  
         </div>  
 </div>

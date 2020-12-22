@@ -15,7 +15,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/accounts/home/">DJANGOGRAM</a>
+            <a class="navbar-brand" href="{% url 'accounts:home' %}">DJANGOGRAM</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07"
                 aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -24,16 +24,16 @@
         <div class="collapse navbar-collapse" id="navbarsExample07">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="/accounts/users/">View other users <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'accounts:user_list' %}">View other users <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/accounts/profile/">Profile</a>
+              <a class="nav-link" href="{% url 'accounts:view_profile' %}">Profile</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/accounts/pictures/">My pics</a>
+              <a class="nav-link" href="{% url 'accounts:picture_list' %}">My pics</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/accounts/edit/">Add new PIC</a>
+              <a class="nav-link" href="{% url 'accounts:edit_picture' %}">Add new PIC</a>
             </li>
           </ul>
               {% endif %}
@@ -41,16 +41,16 @@
             <ul class="nav justify-content-end">
             {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/accounts/logout/">Logout</a>
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
                 </li>
             {% else %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login / Sign up</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/accounts/login/">Login</a>
+                        <a class="dropdown-item" href="{% url 'accounts:login' %}">Login</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/accounts/signup/">Sign up</a>
+                        <a class="dropdown-item" href="{% url 'accounts:signup' %}">Sign up</a>
                     </div>
                 </li>
             {% endif %}

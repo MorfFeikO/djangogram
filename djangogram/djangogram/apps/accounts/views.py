@@ -11,6 +11,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.forms import Form
+from django.urls import reverse
 
 from .models import UserProfile, UserPicture
 from .forms import SignUpForm, EditProfileForm, EditUserProfileForm, EditPictureForm
@@ -21,6 +23,7 @@ UserModel = get_user_model()
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
+        print(form.errors.as_json())
         if form.is_valid():  # валидация формы. Как отловить или наладить, что не так?
             user = form.save(commit=False)
             user.is_active = False
@@ -36,10 +39,11 @@ def signup(request):
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
-            return HttpResponse('Please confirm your email address to complete registration')
+            conf_msg = 'Please confirm your email address to complete registration!'
+            return render(request, 'accounts/confirmation_signup.html', {'conf_msg': conf_msg})
         else:
-            args = form.errors.as_json()
-            return HttpResponse(args)
+            e = dict(form.errors)
+            return render(request, 'accounts/signup_errors.html', {'e': e})
     else:
         form = SignUpForm()
         return render(request, 'accounts/signup.html', {'form': form})
@@ -54,7 +58,7 @@ def activate(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect('/accounts/login/')
+        return redirect(reverse('accounts:login'))
     else:
         return HttpResponse('Activation link is invalid!')
 
@@ -73,7 +77,7 @@ def edit_profile(request):
         if form.is_valid() and u_form.is_valid():
             form.save()
             u_form.save()
-            return redirect('/accounts/profile/')
+            return redirect(reverse('accounts:view_profile'))
         else:
             args = form.errors.as_json()
             # print(form.errors.as_data())
@@ -105,9 +109,9 @@ def change_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return redirect('/accounts/profile/')
+            return redirect(reverse('accounts:view_profile'))
         else:
-            return redirect('/accounts/profile/password/')
+            return redirect(reverse('accounts:change_password'))
     else:
         form = PasswordChangeForm(user=request.user)
         args = {'form': form}
