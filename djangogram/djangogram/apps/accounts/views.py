@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
@@ -11,7 +10,6 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.forms import Form
 from django.urls import reverse
 
 from .models import UserProfile, UserPicture
@@ -43,7 +41,7 @@ def signup(request):
             return render(request, 'accounts/confirmation_signup.html', {'conf_msg': conf_msg})
         else:
             e = dict(form.errors)
-            return render(request, 'accounts/signup_errors.html', {'e': e})
+            return render(request, 'accounts/errors.html', {'e': e})
     else:
         form = SignUpForm()
         return render(request, 'accounts/signup.html', {'form': form})
@@ -60,7 +58,8 @@ def activate(request, uidb64, token):
         user.save()
         return redirect(reverse('accounts:login'))
     else:
-        return HttpResponse('Activation link is invalid!')
+        e = dict(form.errors)
+        return render(request, 'accounts/errors.html', {'e': e})
 
 
 @login_required
@@ -79,9 +78,8 @@ def edit_profile(request):
             u_form.save()
             return redirect(reverse('accounts:view_profile'))
         else:
-            args = form.errors.as_json()
-            # print(form.errors.as_data())
-            return HttpResponse(args)
+            e = dict(form.errors)
+            return render(request, 'accounts/errors.html', {'e': e})
     else:
         form = EditProfileForm(instance=request.user)
         u_form = EditUserProfileForm(instance=request.user.userprofile)
@@ -95,7 +93,7 @@ def edit_picture(request):
         form = EditPictureForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponse('BINGO')
+            return redirect(reverse('accounts:edit_picture'))
     else:
         form = EditPictureForm()
         args = {'form': form}
