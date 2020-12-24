@@ -21,7 +21,7 @@ UserModel = get_user_model()
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        print(form.errors.as_json())
+        # print(form.errors.as_json())
         if form.is_valid():  # валидация формы. Как отловить или наладить, что не так?
             user = form.save(commit=False)
             user.is_active = False
@@ -115,7 +115,7 @@ def change_password(request):
         args = {'form': form}
         return render(request, 'accounts/change_password.html', args)
 
-
+# Ниже я все протестировал!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 @login_required
 def profile_pictures(request):
     picture_list = UserPicture.objects.filter(user=request.user).order_by('-pub_date')

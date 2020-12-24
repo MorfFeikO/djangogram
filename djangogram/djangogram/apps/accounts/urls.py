@@ -14,9 +14,9 @@ urlpatterns = [
         path('activate/<uidb64>/<token>/', views.activate, name='activate'),
         path('profile/', views.view_profile, name='view_profile'),
         path('profile/edit/', views.edit_profile, name='edit_profile'),
-        path('profile/<username>/', views.profile_view, name='user_profile'),
+        path('profile/<str:username>/', views.profile_view, name='user_profile'),
         path('pictures/', views.profile_pictures, name='picture_list'),
-        path('pictures/<username>/', views.pictures_view, name='user_pictures'),
+        path('pictures/<str:username>/', views.pictures_view, name='user_pictures'),
         path('users/', views.profile_list, name='user_list'),
         path('edit/', views.edit_picture, name='edit_picture'),
 ]
