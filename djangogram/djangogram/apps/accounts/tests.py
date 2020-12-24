@@ -1,6 +1,9 @@
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
 from unittest import skip
+import io
+
+from PIL import Image
 
 from .views import view_profile, edit_profile, edit_picture, signup, change_password, home, profile_view,\
     profile_pictures, profile_list, pictures_view
@@ -8,7 +11,6 @@ from .models import UserPicture, UserProfile, User
 from .forms import EditPictureForm, EditProfileForm, EditUserProfileForm, SignUpForm
 
 
-@skip
 class TestUrls(TestCase):
 
     def test_view_profile_resolved(self):
@@ -76,14 +78,6 @@ class TestModels(TestCase):
     pass
 
 
-"""
-Список вьюшек для тестирования:
-- activate
-- edit_picture
-- change_password (осталось test_change_password_POST_true)
-"""
-
-
 class TestViews(TestCase):
 
     def setUp(self):
@@ -104,6 +98,14 @@ class TestViews(TestCase):
         self.test_user_auth = User.objects.filter(username='test_username_1').get()
         self.client.force_login(self.test_user_auth)
         self.test_user = User.objects.filter(username='test_username_2').get()
+
+    def generate_photo_file(self):
+        file = io.BytesIO()
+        image = Image.new('RGBA', size=(100, 100), color=(155, 0, 0))
+        image.save(file, 'png')
+        file.name = 'test.png'
+        file.seek(0)
+        return file
 
     def test_signup_GET(self):
         response = self.client.get(reverse('accounts:signup'))
@@ -133,6 +135,18 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/errors.html')
 
+    def test_activate_TRY_true(self):
+        pass
+
+    def test_activate_TRY_false(self):
+        pass
+
+    def test_activate_IF_true(self):
+        pass
+
+    def test_activate_IF_false(self):
+        pass
+
     def test_view_profile_GET(self):
         response = self.client.get(reverse('accounts:view_profile'))
 
@@ -161,6 +175,29 @@ class TestViews(TestCase):
             'first_name': 'Test_first_name',
             'last_name': 'Test_last_name'
         })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'accounts/errors.html')
+
+    def test_edit_picture_GET_true(self):
+        response = self.client.get(reverse('accounts:edit_picture'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'accounts/edit_picture.html')
+
+    def test_edit_picture_POST_true(self):
+        photo_file = self.generate_photo_file()
+        data = {
+            'picture_title': 'Test title for the picture!',
+            'picture': photo_file
+        }
+        response = self.client.post(reverse('accounts:edit_picture'), data, format='multipart')
+
+        self.assertRedirects(response, reverse('accounts:view_profile'), status_code=302)
+
+    @skip
+    def test_edit_picture_POST_false(self):
+        response = self.client.post(reverse('accounts:edit_picture'), {})
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/errors.html')

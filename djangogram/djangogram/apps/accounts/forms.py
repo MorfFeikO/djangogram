@@ -31,4 +31,7 @@ class EditUserProfileForm(forms.ModelForm):
 class EditPictureForm(forms.ModelForm):
     class Meta:
         model = UserPicture
-        fields = ('picture',)
+        fields = (
+            'picture',
+            'picture_title',
+        )

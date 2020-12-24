@@ -21,8 +21,7 @@ UserModel = get_user_model()
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        # print(form.errors.as_json())
-        if form.is_valid():  # валидация формы. Как отловить или наладить, что не так?
+        if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
             user.save()
@@ -58,8 +57,8 @@ def activate(request, uidb64, token):
         user.save()
         return redirect(reverse('accounts:login'))
     else:
-        e = dict(form.errors)
-        return render(request, 'accounts/errors.html', {'e': e})
+        error_msg = {'Error': 'The activation link is invalid'}
+        return render(request, 'accounts/errors.html', {'e': error_msg})
 
 
 @login_required
@@ -94,6 +93,9 @@ def edit_picture(request):
         if form.is_valid():
             form.save()
             return redirect(reverse('accounts:edit_picture'))
+        else:
+            e = dict(form.errors)
+            return render(request, 'accounts/errors.html', {'e': e})
     else:
         form = EditPictureForm()
         args = {'form': form}
@@ -115,7 +117,7 @@ def change_password(request):
         args = {'form': form}
         return render(request, 'accounts/change_password.html', args)
 
-# Ниже я все протестировал!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 @login_required
 def profile_pictures(request):
     picture_list = UserPicture.objects.filter(user=request.user).order_by('-pub_date')
