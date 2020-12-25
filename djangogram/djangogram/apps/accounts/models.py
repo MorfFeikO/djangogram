@@ -14,10 +14,10 @@ class UserProfile(models.Model):
 
 
 class UserPicture(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     picture_title = models.CharField(max_length=200)
     picture = models.ImageField(upload_to='profile_image', blank=True)
-    pub_date = models.DateTimeField(default=timezone.now())
+    pub_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.picture_title

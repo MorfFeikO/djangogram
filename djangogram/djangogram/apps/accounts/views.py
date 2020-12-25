@@ -91,7 +91,9 @@ def edit_picture(request):
     if request.method == 'POST':
         form = EditPictureForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            picture = form.save(commit=False)
+            picture.user = request.user
+            picture.save()
             return redirect(reverse('accounts:edit_picture'))
         else:
             e = dict(form.errors)

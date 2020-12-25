@@ -83,19 +83,25 @@ class TestViews(TestCase):
     def setUp(self):
         self.client = Client()
 
-        User.objects.create(
+        # User.objects.create(
+        #     email='test_username_1@gmail.com',
+        #     username='test_username_1',
+        #     password='test_password_1'
+        # )
+
+        self.test_user_auth = User.objects.create(
             email='test_username_1@gmail.com',
             username='test_username_1',
-            password='test_password_1'
         )
-
+        self.test_user_auth.set_password('test_password_1')
+        self.test_user_auth.save()
         User.objects.create(
             email='test_username_2@gmail.com',
             username='test_username_2',
             password='test_password_2'
         )
 
-        self.test_user_auth = User.objects.filter(username='test_username_1').get()
+        # self.test_user_auth = User.objects.filter(username='test_username_1').get()
         self.client.force_login(self.test_user_auth)
         self.test_user = User.objects.filter(username='test_username_2').get()
 
@@ -168,7 +174,6 @@ class TestViews(TestCase):
         })
 
         self.assertRedirects(response, reverse('accounts:view_profile'), status_code=302)
-        # self.assertEqual(str(response.data['first_name']), 'Test_first_name')
 
     def test_edit_profile_POST_false(self):
         response = self.client.post(reverse('accounts:edit_profile'), {
@@ -184,6 +189,7 @@ class TestViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/edit_picture.html')
+
 
     def test_edit_picture_POST_true(self):
         photo_file = self.generate_photo_file()
@@ -221,8 +227,8 @@ class TestViews(TestCase):
     def test_change_password_POST_false(self):
         response = self.client.post(reverse('accounts:change_password'), {
             'old_password': 'test_password_1',
-            'new_password1': 'test_password_1',
-            'new_password2': 'test_password_1'
+            'new_password1': 'test_password_2',
+            'new_password2': 'test_password_3'
         })
 
         self.assertRedirects(response, reverse('accounts:change_password'), status_code=302)
