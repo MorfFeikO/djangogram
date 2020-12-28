@@ -83,25 +83,19 @@ class TestViews(TestCase):
     def setUp(self):
         self.client = Client()
 
-        # User.objects.create(
-        #     email='test_username_1@gmail.com',
-        #     username='test_username_1',
-        #     password='test_password_1'
-        # )
-
-        self.test_user_auth = User.objects.create(
+        self.test_user_auth = User(
             email='test_username_1@gmail.com',
             username='test_username_1',
         )
         self.test_user_auth.set_password('test_password_1')
         self.test_user_auth.save()
+
         User.objects.create(
             email='test_username_2@gmail.com',
             username='test_username_2',
             password='test_password_2'
         )
 
-        # self.test_user_auth = User.objects.filter(username='test_username_1').get()
         self.client.force_login(self.test_user_auth)
         self.test_user = User.objects.filter(username='test_username_2').get()
 
@@ -190,7 +184,6 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/edit_picture.html')
 
-
     def test_edit_picture_POST_true(self):
         photo_file = self.generate_photo_file()
         data = {
@@ -199,9 +192,8 @@ class TestViews(TestCase):
         }
         response = self.client.post(reverse('accounts:edit_picture'), data, format='multipart')
 
-        self.assertRedirects(response, reverse('accounts:view_profile'), status_code=302)
+        self.assertRedirects(response, reverse('accounts:edit_picture'), status_code=302)
 
-    @skip
     def test_edit_picture_POST_false(self):
         response = self.client.post(reverse('accounts:edit_picture'), {})
 
@@ -214,7 +206,6 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/change_password.html')
 
-    @skip
     def test_change_password_POST_true(self):
         response = self.client.post(reverse('accounts:change_password'), {
             'old_password': 'test_password_1',
