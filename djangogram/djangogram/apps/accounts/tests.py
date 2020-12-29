@@ -40,11 +40,11 @@ class TestUrls(TestCase):
     def test_profile_view_resolved(self):
         self.client = Client()
         User.objects.create(
-            email='a.s.bozbei@gmail.com',
-            username='alex',
-            password='kulopoplaxan'
+            email='test@gmail.com',
+            username='test_user',
+            password='test_password'
         )
-        user = User.objects.filter(username='alex').get()
+        user = User.objects.filter(username='test_user').get()
 
         url = reverse('accounts:user_profile', args=[user.username])
         self.assertEqual(resolve(url).func, profile_view)
@@ -60,11 +60,11 @@ class TestUrls(TestCase):
     def test_pictures_view_resolved(self):
         self.client = Client()
         User.objects.create(
-            email='a.s.bozbei@gmail.com',
-            username='alex',
-            password='kulopoplaxan'
+            email='test@gmail.com',
+            username='test_user',
+            password='test_password'
         )
-        user = User.objects.filter(username='alex').get()
+        user = User.objects.filter(username='test_user').get()
 
         url = reverse('accounts:user_pictures', args=[user.username])
         self.assertEqual(resolve(url).func, pictures_view)
@@ -135,18 +135,6 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/errors.html')
 
-    def test_activate_TRY_true(self):
-        pass
-
-    def test_activate_TRY_false(self):
-        pass
-
-    def test_activate_IF_true(self):
-        pass
-
-    def test_activate_IF_false(self):
-        pass
-
     def test_view_profile_GET(self):
         response = self.client.get(reverse('accounts:view_profile'))
 
@@ -209,8 +197,8 @@ class TestViews(TestCase):
     def test_change_password_POST_true(self):
         response = self.client.post(reverse('accounts:change_password'), {
             'old_password': 'test_password_1',
-            'new_password1': 'test_password_1_new',
-            'new_password2': 'test_password_1_new'
+            'new_password1': 't@st_new_p"ssw0rd',
+            'new_password2': 't@st_new_p"ssw0rd'
         })
 
         self.assertRedirects(response, reverse('accounts:view_profile'), status_code=302)
