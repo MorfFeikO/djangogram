@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} Logout {% endblock %}
+
+{% block content %}
+
+<div class="container" style="margin-top: 50px;">
+    <div class="row justify-content-center">
+        <div class="col-md-5 shadow-sm p-3 mb-5 bg-white rounded">
+                {% if request.user.is_authenticated %}
+                    <h4>Welcome to DJANGOGRAM!</h4>
+                    <p>You are LOGGED in!</p>
+                {% else %}
+                    <h4>You are LOGGED OUT!</h4>
+                    <p>Please, Login, if you have an account.</p>
+                    <p>or Sign Up if you haven't.</p>
+                {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

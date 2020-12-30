@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} User's list {% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if user_list %}
+            {% for u in user_list %}
+                {% if u.username != 'admin' and u.username != user.username %}
+                    <p><a href="{% url 'accounts:user_profile' u.username %}">{{ u.first_name }} {{ u.last_name }}</a></p>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            There is no registered users. Suggest to join to someone new!
+        {% endif %}
+    </div>
+{% endblock %}
