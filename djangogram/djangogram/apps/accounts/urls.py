@@ -12,11 +12,11 @@ urlpatterns = [
         path('signup/', views.signup, name='signup'),
         path('profile/password/', views.change_password, name='change_password'),
         path('activate/<uidb64>/<token>/', views.activate, name='activate'),
-        path('profile/', views.view_profile, name='view_profile'),
         path('profile/edit/', views.edit_profile, name='edit_profile'),
-        path('profile/<str:username>/', views.profile_view, name='user_profile'),
-        path('pictures/', views.profile_pictures, name='picture_list'),
-        path('pictures/<str:username>/', views.pictures_view, name='user_pictures'),
-        path('users/', views.profile_list, name='user_list'),
-        path('edit/', views.edit_picture, name='edit_picture'),
+
+        path('profile_page/', views.new_profile_view, name='profile_page'),
+        path('profile_page/<str:pk>/', views.new_profile_view, name='profile_page_friend'),
+        path('profile_page/<str:pk>/<str:operation>/', views.operation_with_friends, name='operation'),
+        path('profile_page/<str:pk>/<str:operation>/<int:picture_id>/', views.operation_with_friends, name='like'),
+
 ]

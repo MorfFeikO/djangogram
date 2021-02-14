@@ -5,25 +5,17 @@ import io
 
 from PIL import Image
 
-from .views import view_profile, edit_profile, edit_picture, signup, change_password, home, profile_view,\
-    profile_pictures, profile_list, pictures_view
-from .models import UserPicture, UserProfile, User
+from .views import edit_profile, signup, change_password, home, new_profile_view, operation_with_friends
+from .models import UserPicture, UserProfile, User, Friend
 from .forms import EditPictureForm, EditProfileForm, EditUserProfileForm, SignUpForm
 
 
+@skip
 class TestUrls(TestCase):
 
-    def test_view_profile_resolved(self):
-        url = reverse('accounts:view_profile')
-        self.assertEqual(resolve(url).func, view_profile)
-
-    def test_edit_profile_resolved(self):
-        url = reverse('accounts:edit_profile')
-        self.assertEqual(resolve(url).func, edit_profile)
-
-    def test_edit_picture_resolved(self):
-        url = reverse('accounts:edit_picture')
-        self.assertEqual(resolve(url).func, edit_picture)
+    def test_home_resolved(self):
+        url = reverse('accounts:home')
+        self.assertEqual(resolve(url).func, home)
 
     def test_signup_resolved(self):
         url = reverse('accounts:signup')
@@ -33,41 +25,25 @@ class TestUrls(TestCase):
         url = reverse('accounts:change_password')
         self.assertEqual(resolve(url).func, change_password)
 
-    def test_home_resolved(self):
-        url = reverse('accounts:home')
-        self.assertEqual(resolve(url).func, home)
+    def test_edit_profile_resolved(self):
+        url = reverse('accounts:edit_profile')
+        self.assertEqual(resolve(url).func, edit_profile)
 
-    def test_profile_view_resolved(self):
-        self.client = Client()
-        User.objects.create(
-            email='test@gmail.com',
-            username='test_user',
-            password='test_password'
-        )
-        user = User.objects.filter(username='test_user').get()
+    def test_profile_page_resolved(self):
+        url = reverse('accounts:profile_page')
+        self.assertEqual(resolve(url).func, new_profile_view)
 
-        url = reverse('accounts:user_profile', args=[user.username])
-        self.assertEqual(resolve(url).func, profile_view)
+    def test_profile_page_friend_resolved(self):
+        url = reverse('accounts:profile_page_friend', kwargs={'pk': '2'})
+        self.assertEqual(resolve(url).func, new_profile_view)
 
-    def test_profile_pictures_resolved(self):
-        url = reverse('accounts:picture_list')
-        self.assertEqual(resolve(url).func, profile_pictures)
+    def test_operation_resolved(self):
+        url = reverse('accounts:operation', kwargs={'pk': '2', 'operation': 'add'})
+        self.assertEqual(resolve(url).func, operation_with_friends)
 
-    def test_profile_list_resolved(self):
-        url = reverse('accounts:user_list')
-        self.assertEqual(resolve(url).func, profile_list)
-
-    def test_pictures_view_resolved(self):
-        self.client = Client()
-        User.objects.create(
-            email='test@gmail.com',
-            username='test_user',
-            password='test_password'
-        )
-        user = User.objects.filter(username='test_user').get()
-
-        url = reverse('accounts:user_pictures', args=[user.username])
-        self.assertEqual(resolve(url).func, pictures_view)
+    def test_like_resolved(self):
+        url = reverse('accounts:like', kwargs={'pk': '2', 'operation': 'like', 'picture_id': '5'})
+        self.assertEqual(resolve(url).func, operation_with_friends)
 
 
 class TestForms(TestCase):
@@ -135,12 +111,6 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/errors.html')
 
-    def test_view_profile_GET(self):
-        response = self.client.get(reverse('accounts:view_profile'))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/profile.html')
-
     def test_edit_profile_GET(self):
         response = self.client.get(reverse('accounts:edit_profile'))
 
@@ -155,35 +125,13 @@ class TestViews(TestCase):
             'image': 'None'
         })
 
-        self.assertRedirects(response, reverse('accounts:view_profile'), status_code=302)
+        self.assertRedirects(response, reverse('accounts:profile_page'), status_code=302)
 
     def test_edit_profile_POST_false(self):
         response = self.client.post(reverse('accounts:edit_profile'), {
             'first_name': 'Test_first_name',
             'last_name': 'Test_last_name'
         })
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/errors.html')
-
-    def test_edit_picture_GET_true(self):
-        response = self.client.get(reverse('accounts:edit_picture'))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/edit_picture.html')
-
-    def test_edit_picture_POST_true(self):
-        photo_file = self.generate_photo_file()
-        data = {
-            'picture_title': 'Test title for the picture!',
-            'picture': photo_file
-        }
-        response = self.client.post(reverse('accounts:edit_picture'), data, format='multipart')
-
-        self.assertRedirects(response, reverse('accounts:edit_picture'), status_code=302)
-
-    def test_edit_picture_POST_false(self):
-        response = self.client.post(reverse('accounts:edit_picture'), {})
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/errors.html')
@@ -201,7 +149,7 @@ class TestViews(TestCase):
             'new_password2': 't@st_new_p"ssw0rd'
         })
 
-        self.assertRedirects(response, reverse('accounts:view_profile'), status_code=302)
+        self.assertRedirects(response, reverse('accounts:profile_page'), status_code=302)
 
     def test_change_password_POST_false(self):
         response = self.client.post(reverse('accounts:change_password'), {
@@ -212,36 +160,83 @@ class TestViews(TestCase):
 
         self.assertRedirects(response, reverse('accounts:change_password'), status_code=302)
 
-    def test_profile_pictures_GET(self):
-        response = self.client.get(reverse('accounts:picture_list'))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/picture_list.html')
-
-    def test_profile_list_GET(self):
-        response = self.client.get(reverse('accounts:user_list'))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/user_list.html')
-
-    def test_profile_view_GET(self):
-        response = self.client.get(reverse('accounts:user_profile',
-                                           kwargs={'username': self.test_user.username}
-                                           ))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/user_profile.html')
-
     def test_home_GET(self):
+        User.objects.create(
+            email='test_admin@gmail.com',
+            username='admin',
+            password='test_password_3'
+        )
+
         response = self.client.get(reverse('accounts:home'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/home.html')
 
-    def test_pictures_view_GET(self):
-        response = self.client.get(reverse('accounts:user_pictures',
-                                           kwargs={'username': self.test_user.username}
-                                           ))
+    def test_profile_page_GET(self):
+        response = self.client.get(reverse('accounts:profile_page'))
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/picture_list.html')
+        self.assertTemplateUsed(response, 'accounts/profile_page.html')
+
+    def test_profile_page_GET_with_pk(self):
+        user = User.objects.get(username='test_username_2')
+        response = self.client.get(reverse('accounts:profile_page_friend', kwargs={'pk': user.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'accounts/profile_page.html')
+
+    def test_profile_page_GET_with_friend(self):
+        auth_user = User.objects.get(username='test_username_1')
+        user = User.objects.get(username='test_username_2')
+        friend = Friend.objects.get_or_create(current_user=auth_user)
+        friend[0].users.add(user)
+
+        response = self.client.get(reverse('accounts:profile_page_friend', kwargs={'pk': user.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'accounts/profile_page.html')
+
+    def test_profile_page_POST_true(self):
+        photo_file = self.generate_photo_file()
+        data = {
+            'picture_title': 'Test title for the picture!',
+            'picture': photo_file
+        }
+        response = self.client.post(reverse('accounts:profile_page'), data, format='multipart')
+
+        self.assertRedirects(response, reverse('accounts:profile_page'), status_code=302)
+
+    def test_profile_page_POST_false(self):
+        response = self.client.post(reverse('accounts:profile_page'), {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'accounts/errors.html')
+
+    def test_operations_with_friends_GET_add_resolved(self):
+        response = self.client.get(reverse('accounts:operation', kwargs={'pk': 2, 'operation': 'add'}))
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_operations_with_friends_GET_remove_resolved(self):
+        response = self.client.get(reverse('accounts:operation', kwargs={'pk': 2, 'operation': 'remove'}))
+
+        self.assertEqual(response.status_code, 302)
+
+    @skip
+    def test_operations_with_friends_GET_like_resolved(self):
+        photo_file = self.generate_photo_file()
+        user = User.objects.get(username='test_username_2')
+        pic = UserPicture(picture_title='Test title for the picture!', picture=photo_file)
+        pic.user = user
+        pic.save()
+        response = self.client.get(reverse('accounts:like', kwargs={'pk': user.pk,
+                                                                    'operation': 'like',
+                                                                    'picture_id': pic.id
+                                                                    }))
+
+        self.assertEqual(response.status_code, 302)
+
+    @skip
+    def test_operations_with_friends_GET_dislike_resolved(self):
+        pass
+

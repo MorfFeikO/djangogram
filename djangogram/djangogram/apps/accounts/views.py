@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -12,10 +12,18 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
-from .models import UserProfile, UserPicture
+from sendgrid import SendGridAPIClient
+from sendgrid import Mail, Email, To, Content
+
+from .models import UserProfile, UserPicture, Friend
 from .forms import SignUpForm, EditProfileForm, EditUserProfileForm, EditPictureForm
 
+import environ
+
 UserModel = get_user_model()
+
+env = environ.Env()
+environ.Env.read_env()
 
 
 def signup(request):
@@ -26,7 +34,7 @@ def signup(request):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            mail_subject = 'Activate your DJANGOGRAM account'
+            mail_subject = 'Activate your DJANGO_GRAM account'
             message = render_to_string('accounts/acc_active_email.html', {
                 'user': user,
                 'domain': current_site.domain,
@@ -34,8 +42,18 @@ def signup(request):
                 'token': default_token_generator.make_token(user),
             })
             to_email = form.cleaned_data.get('email')
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
+
+            # Adding sendgrid
+            sg = SendGridAPIClient(api_key=env.str('SENDGRID_API_KEY'))
+            mail = Mail(
+                from_email=Email(env.str('EMAIL_HOST_USER')),
+                to_emails=To(to_email),
+                subject=mail_subject,
+                html_content=Content(mime_type='text/html', content=message)
+            )
+            sg.client.mail.send.post(request_body=mail.get())
+            # Adding sendgrid
+
             conf_msg = 'Please confirm your email address to complete registration!'
             return render(request, 'accounts/confirmation_signup.html', {'conf_msg': conf_msg})
         else:
@@ -62,12 +80,6 @@ def activate(request, uidb64, token):
 
 
 @login_required
-def view_profile(request):
-    args = {'user': request.user}
-    return render(request, 'accounts/profile.html', args)
-
-
-@login_required
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
@@ -75,7 +87,7 @@ def edit_profile(request):
         if form.is_valid() and u_form.is_valid():
             form.save()
             u_form.save()
-            return redirect(reverse('accounts:view_profile'))
+            return redirect(reverse('accounts:profile_page'))
         else:
             e = dict(form.errors)
             return render(request, 'accounts/errors.html', {'e': e})
@@ -87,31 +99,13 @@ def edit_profile(request):
 
 
 @login_required
-def edit_picture(request):
-    if request.method == 'POST':
-        form = EditPictureForm(request.POST, request.FILES)
-        if form.is_valid():
-            picture = form.save(commit=False)
-            picture.user = request.user
-            picture.save()
-            return redirect(reverse('accounts:edit_picture'))
-        else:
-            e = dict(form.errors)
-            return render(request, 'accounts/errors.html', {'e': e})
-    else:
-        form = EditPictureForm()
-        args = {'form': form}
-        return render(request, 'accounts/edit_picture.html', args)
-
-
-@login_required
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return redirect(reverse('accounts:view_profile'))
+            return redirect(reverse('accounts:profile_page'))
         else:
             return redirect(reverse('accounts:change_password'))
     else:
@@ -121,30 +115,88 @@ def change_password(request):
 
 
 @login_required
-def profile_pictures(request):
-    picture_list = UserPicture.objects.filter(user=request.user).order_by('-pub_date')
-    return render(request, 'accounts/picture_list.html', {'picture_list': picture_list})
-
-
-@login_required
-def profile_list(request):
-    user_list = User.objects.order_by('username').all()
-    return render(request, 'accounts/user_list.html', {'user_list': user_list})
-
-
-@login_required
-def profile_view(request, username):
-    user = User.objects.get(username=username)
-    args = {'user': user}
-    return render(request, 'accounts/user_profile.html', args)
-
-
 def home(request):
-    return render(request, 'accounts/home.html')
+    friend = Friend.objects.get_or_create(current_user=request.user)
+    friends = friend[0].users.all()
+    users = User.objects.exclude(id=request.user.id).exclude(id__in=friends)
+
+    user_pictures_list = UserPicture.objects.\
+        exclude(user__in=users).\
+        order_by('-pub_date')
+
+    args = {
+        'auth_user': request.user,
+        'users': users,
+        'pictures': user_pictures_list
+    }
+    return render(request, 'accounts/home.html', args)
 
 
 @login_required
-def pictures_view(request, username):
-    user = User.objects.get(username=username)
-    picture_list = UserPicture.objects.filter(user=user).order_by('-pub_date')
-    return render(request, 'accounts/picture_list.html', {'picture_list': picture_list})
+def new_profile_view(request, pk=None):
+    if request.method == 'GET':
+        form = EditPictureForm()
+
+        if pk:
+            user = User.objects.get(pk=pk)
+        else:
+            user = request.user
+
+        user_pictures_list = UserPicture.objects.filter(user=user).order_by('-pub_date')
+
+        auth_friend = Friend.objects.get_or_create(current_user=request.user)
+        auth_friends = auth_friend[0].users.all()
+
+        friend = Friend.objects.get_or_create(current_user=user)
+        friends = friend[0].users.all()
+
+        if user in auth_friends:
+            is_friend = True
+        else:
+            is_friend = False
+
+        args = {
+            'auth_user': request.user,
+            'pk': pk,
+            'user': user,
+            'friends': friends,
+            'pictures': user_pictures_list,
+            'form': form,
+            'is_friend': is_friend,
+        }
+        return render(request, 'accounts/profile_page.html', args)
+    else:
+        form = EditPictureForm(request.POST, request.FILES)
+        if form.is_valid():
+            picture = form.save(commit=False)
+            picture.user = request.user
+            picture.save()
+            return redirect(reverse('accounts:profile_page'))
+        else:
+            e = dict(form.errors)
+            return render(request, 'accounts/errors.html', {'e': e})
+
+
+@login_required
+def operation_with_friends(request, pk, operation, picture_id=None):
+    auth_user = request.user
+    friend = User.objects.get(pk=pk)
+    if operation == 'add':
+        Friend.make_friend(auth_user, friend)
+    elif operation == 'remove':
+        Friend.lose_friend(auth_user, friend)
+    elif operation == 'like':
+        picture = get_object_or_404(UserPicture, id=picture_id)
+        picture.likes.add(request.user)
+    elif operation == 'dislike':
+        picture = get_object_or_404(UserPicture, id=picture_id)
+        picture.likes.remove(request.user)
+    return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
+
+
+def new_func_test_commit():
+    pass
+
+
+def new_2func_test_commit():
+    pass

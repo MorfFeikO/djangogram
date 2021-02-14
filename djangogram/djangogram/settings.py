@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 import sys
 import environ
+import django_heroku
 
 env = environ.Env()
 environ.Env.read_env()
@@ -35,7 +36,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # DEBUG = True
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [env.str('ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -51,12 +52,18 @@ INSTALLED_APPS = [
     'storages',
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = (
+        'django.core.mail.backends.console.EmailBackend'
+    )
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 MAILER_EMAIL_BACKEND = EMAIL_BACKEND
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
+SENDGRID_API_KEY = env.str('SENDGRID_API_KEY')
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
@@ -141,9 +148,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_URL = '/accounts/login/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = '/profile/'
+LOGIN_REDIRECT_URL = '/profile_page/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
@@ -151,7 +159,7 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 # AMAZON S3 BUCKET STORAGE
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
 
-AWS_ACCESS_KEY_ID = env.str('ASW_ACCESS_KEY_ID')
+AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION')
@@ -161,3 +169,10 @@ AWS_DEFAULT_ACL = None
 AWS_S3_FILE_OVERWRITE = False
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+django_heroku.settings(locals())
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
