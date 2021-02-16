@@ -13,7 +13,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 import sys
+import environ
+import django_heroku
 
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,12 +29,14 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '=gt@q4-=e$0u2_%%h1n_tzzigkh_5sv%eg4has+jm!c$9n*yv5'
+# SECRET_KEY = '=gt@q4-=e$0u2_%%h1n_tzzigkh_5sv%eg4has+jm!c$9n*yv5'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [env.str('ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -43,15 +49,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = (
+        'django.core.mail.backends.console.EmailBackend'
+    )
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 MAILER_EMAIL_BACKEND = EMAIL_BACKEND
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_PASSWORD = 'gmkul091212BEcom'
-EMAIL_HOST_USER = 'a.s.bozbei@gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+SENDGRID_API_KEY = env.str('SENDGRID_API_KEY')
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 MIDDLEWARE = [
@@ -135,9 +148,31 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_URL = '/accounts/login/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = '/profile/'
+LOGIN_REDIRECT_URL = '/profile_page/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+
+# AMAZON S3 BUCKET STORAGE
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
+
+AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_SIGNATURE_VERSION = env.str('AWS_S3_SIGNATURE_VERSION')
+AWS_S3_REGION_NAME = env.str('AWS_S3_REGION_NAME')
+
+AWS_DEFAULT_ACL = None
+AWS_S3_FILE_OVERWRITE = False
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+django_heroku.settings(locals())
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
