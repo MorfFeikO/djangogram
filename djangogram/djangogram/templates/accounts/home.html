@@ -30,6 +30,7 @@
                                                     <a href="{% url 'accounts:like' pk=user.pk operation='dislike' picture_id=picture.id %}">
                                                         <button type="submit" class="btn btn-danger">Dislike</button>
                                                     </a>
+
                                                 {% else %}
                                                     <a href="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}">
                                                         <button type="submit" class="btn btn-primary">Like</button>
