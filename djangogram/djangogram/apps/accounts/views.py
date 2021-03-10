@@ -12,6 +12,9 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
+
 from sendgrid import SendGridAPIClient
 from sendgrid import Mail, Email, To, Content
 
@@ -183,20 +186,15 @@ def operation_with_friends(request, pk, operation, picture_id=None):
     friend = User.objects.get(pk=pk)
     if operation == 'add':
         Friend.make_friend(auth_user, friend)
+        return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
     elif operation == 'remove':
         Friend.lose_friend(auth_user, friend)
+        return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
     elif operation == 'like':
         picture = get_object_or_404(UserPicture, id=picture_id)
         picture.likes.add(request.user)
+        return JsonResponse({'like': picture.total_likes()}, status=200)
     elif operation == 'dislike':
         picture = get_object_or_404(UserPicture, id=picture_id)
         picture.likes.remove(request.user)
-    return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
-
-
-def new_func_test_commit():
-    pass
-
-
-def new_2func_test_commit():
-    pass
+        return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))

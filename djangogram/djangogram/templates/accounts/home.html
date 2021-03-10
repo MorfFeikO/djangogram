@@ -22,7 +22,9 @@
                                             <p>Author: {{ picture.user.first_name }} {{ picture.user.last_name }}</p>
                                             <p>Title: {{ picture.picture_title }}</p>
                                             <p>Public date: {{ picture.pub_date }}</p>
-                                            <p>{{ picture.total_likes }} Like {{ picture.total.likes|pluralize }}</p>
+
+                                            <p>{{ picture.total_likes }} Like {{ picture.total_likes|pluralize }}</p>
+<-- Это кусок до изменений -->
                                             {% if picture not in auth_user.userpicture_set.all%}
                                                 {% if picture in auth_user.likes.all %}
                                                     <a href="{% url 'accounts:like' pk=user.pk operation='dislike' picture_id=picture.id %}">
@@ -34,6 +36,22 @@
                                                     </a>
                                                 {% endif %}
                                             {% endif %}
+<-- Это кусок до изменений -->
+
+<-- Вот тут я вношу изменения в лайки -->
+                                            <div id="like_count"><p>{{ picture.total_likes }} Like{{ picture.total_likes|pluralize }}</p></div>
+                                            {% if picture not in auth_user.userpicture_set.all%}
+                                                <form method="POST" id="like_form"
+                                                      data-url="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}">{% csrf_token %}
+                                                    {% if picture in auth_user.likes.all %}
+                                                        <button type="button" class="btn btn-danger" id="button_dislike">Dislike</button>
+                                                    {% else %}
+                                                        <button type="button" class="btn btn-primary" id="button_like">Like</button>
+                                                    {% endif %}
+                                                </form>
+                                            {% endif %}
+<-- Вот тут я вношу изменения в лайки -->
+
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -60,7 +78,24 @@
     </div>
 </div>
 
+    <-- Скрипт -->
+    <script type="text/javascript">
+        $('#button_like').click(function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $("like_form").data('url'),
+                success: function(response){
+                    $('#like_count').replaceWith(
+                        "<p> ' + response.like + ' </p>"
+                    );
+                },
 
+
+                });
+            });
+    </script>
+    <-- Скрипт -->
 
 
 {% endblock %}
