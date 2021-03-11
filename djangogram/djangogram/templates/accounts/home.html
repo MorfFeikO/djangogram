@@ -43,7 +43,8 @@
                                             <div id="like_count"><p>{{ picture.total_likes }} Like{{ picture.total_likes|pluralize }}</p></div>
                                             {% if picture not in auth_user.userpicture_set.all%}
                                                 <form method="POST" id="like_form"
-                                                      data-url="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}">{% csrf_token %}
+                                                      data-url="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}">
+                                                    {% csrf_token %}
                                                     {% if picture in auth_user.likes.all %}
                                                         <button type="button" class="btn btn-danger" id="button_dislike">Dislike</button>
                                                     {% else %}
@@ -81,15 +82,18 @@
 
     <-- Скрипт -->
     <script type="text/javascript">
-        $('#button_like').click(function(e){
-            e.preventDefault();
+        $('#button_like').click(function(){
+            var serializedData = $("#like_form").serialize();
+
             $.ajax({
                 type: 'POST',
+                data: serializedData,
                 url: $("like_form").data('url'),
                 success: function(response){
                     $('#like_count').replaceWith(
-                        "<p> ' + response.like + ' </p>"
+                        '<p>' + response[0]["like"] + '</p>'
                     );
+                    console.log(response[0]["like"]);
                 },
 
 

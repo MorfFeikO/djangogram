@@ -21,6 +21,7 @@ from sendgrid import Mail, Email, To, Content
 from .models import UserProfile, UserPicture, Friend
 from .forms import SignUpForm, EditProfileForm, EditUserProfileForm, EditPictureForm
 
+import json
 import environ
 
 UserModel = get_user_model()
@@ -46,16 +47,24 @@ def signup(request):
             })
             to_email = form.cleaned_data.get('email')
 
-            # Adding sendgrid
-            sg = SendGridAPIClient(api_key=env.str('SENDGRID_API_KEY'))
-            mail = Mail(
-                from_email=Email(env.str('EMAIL_HOST_USER')),
-                to_emails=To(to_email),
-                subject=mail_subject,
-                html_content=Content(mime_type='text/html', content=message)
-            )
-            sg.client.mail.send.post(request_body=mail.get())
-            # Adding sendgrid
+                # added debug=true
+            debug = env.bool('DEBUG')
+            if debug:
+                email = EmailMessage(mail_subject, message, to=[to_email])
+                email.send()
+            else:
+                # added debug=true
+
+                # Adding sendgrid
+                sg = SendGridAPIClient(api_key=env.str('SENDGRID_API_KEY'))
+                mail = Mail(
+                    from_email=Email(env.str('EMAIL_HOST_USER')),
+                    to_emails=To(to_email),
+                    subject=mail_subject,
+                    html_content=Content(mime_type='text/html', content=message)
+                )
+                sg.client.mail.send.post(request_body=mail.get())
+                # Adding sendgrid
 
             conf_msg = 'Please confirm your email address to complete registration!'
             return render(request, 'accounts/confirmation_signup.html', {'conf_msg': conf_msg})
@@ -197,4 +206,4 @@ def operation_with_friends(request, pk, operation, picture_id=None):
     elif operation == 'dislike':
         picture = get_object_or_404(UserPicture, id=picture_id)
         picture.likes.remove(request.user)
-        return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
+        return redirect(reverse('accounts:home'))
