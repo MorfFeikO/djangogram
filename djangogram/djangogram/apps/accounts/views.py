@@ -200,10 +200,6 @@ def operation_with_friends(request, pk, operation, picture_id=None):
         elif operation == 'remove':
             Friend.lose_friend(auth_user, friend)
             return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
-        elif operation == 'dislike':
-            picture = get_object_or_404(UserPicture, id=picture_id)
-            picture.likes.remove(request.user)
-            return redirect(reverse('accounts:home'))
     elif request.method == 'POST':
         if operation == 'like':
             picture = get_object_or_404(UserPicture, id=picture_id)

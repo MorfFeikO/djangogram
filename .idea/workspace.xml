@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bc3c6b54-7156-496c-a78e-b755d9970549" name="Default Changelist" comment="Merge branch 'dev2' into dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/misc.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/djangogram/djangogram/templates/accounts/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/templates/accounts/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -123,7 +124,7 @@
       <workItem from="1615380543950" duration="6184000" />
       <workItem from="1615461537657" duration="13814000" />
       <workItem from="1615486063667" duration="2482000" />
-      <workItem from="1615542501556" duration="14137000" />
+      <workItem from="1615542501556" duration="14501000" />
     </task>
     <servers />
   </component>
