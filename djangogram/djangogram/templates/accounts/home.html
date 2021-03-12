@@ -31,10 +31,20 @@
                                                 <form id="like_form" method="POST">
                                                     {% csrf_token %}
                                                     {% if picture in auth_user.likes.all %}
-                                                        <button type="button" class="btn btn-danger" id="button_dislike"
+                                                        <button type="button"
+                                                                class="btn btn-danger"
+                                                                id="button_dislike"
+                                                                data-pk="{{ user.pk }}"
+                                                                data-operation="like"
+                                                                data-pic_id="{{ picture.id }}"
                                                                 data-url="{% url 'accounts:like' pk=user.pk operation='dislike' picture_id=picture.id %}">Dislike</button>
                                                     {% else %}
-                                                        <button type="button" class="btn btn-primary" id="button_like"
+                                                        <button type="button"
+                                                                class="btn btn-primary"
+                                                                id="button_like"
+                                                                data-pk="{{ user.pk }}"
+                                                                data-operation="dislike"
+                                                                data-pic_id="{{ picture.id }}"
                                                                 data-url="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}">Like</button>
                                                     {% endif %}
                                                 </form>
@@ -67,10 +77,20 @@
 </div>
 
     <script type="text/javascript">
-        $('#button_like').click(function(){
-            var serializedData = $("#like_form").serialize();
-            var url = $("#button_like").data('url');
+        $('form').on('click', '#button_like', function(){
+            const serializedData = $("#like_form").serialize();
+            const url = $("#button_like").data('url');
+
+            const pk = $("#button_like").data('pk');
+            const operation = 'dislike';
+            const pic_id = $("#button_like").data('pic_id');
+            let url2 = {% url 'accounts:like' pk=pk operation=operation picture_id=pic_id %};
+            console.log(url2)
+            console.log(pk)
+            console.log(operation)
+            console.log(pic_id)
             console.log(url)
+
             $.ajax({
                 type: 'POST',
                 data: serializedData,
@@ -80,7 +100,10 @@
                         '<div id="like_count"><p> Likes: ' + response['like'] + '</p></div>'
                     );
                     $('#button_like').replaceWith(
-                         '<button type="button" class="btn btn-danger" id="button_dislike" data-url="{' + "% url 'accounts:like' pk=" + response['pk'] + " operation='dislike' picture_id=" + response['picture_id'] + ' }">Dislike</button>'
+                         '<button type="button" class="btn btn-danger" id="button_dislike" ' +
+                        'data-url="{' + "% url 'accounts:like' pk=" + response['pk'] +
+                        " operation='dislike' picture_id=" + response['picture_id'] +
+                        ' %' + '}">Dislike</button>'
                     );
                 },
                 error: function (xhr, errmsg, err) {
@@ -89,9 +112,9 @@
                 });
             });
 
-            $('#button_dislike').click(function(){
-            var serializedData = $("#like_form").serialize();
-            var url = $("#button_dislike").data('url');
+        $('form').on('click', '#button_dislike', function(){
+            const serializedData = $("#like_form").serialize();
+            const url = $("#button_dislike").data('url');
             console.log(url)
             $.ajax({
                 type: 'POST',
@@ -102,7 +125,9 @@
                         '<div id="like_count"><p> Likes: ' + response['like'] + '</p></div>'
                     );
                     $('#button_dislike').replaceWith(
-                         '<button type="button" class="btn btn-primary" id="button_like" data-url="{' + "% url 'accounts:like' pk=" + response['pk'] + " operation='like' picture_id=" + response['picture_id'] + ' }">Like</button>'
+                         '<button type="button" class="btn btn-primary" id="button_like" data-url="{' +
+                        "% url 'accounts:like' pk=" + response['pk'] + " operation='like' picture_id=" +
+                        response['picture_id'] + ' %' + '}">Like</button>'
                     );
                 },
                 error: function (xhr, errmsg, err) {
