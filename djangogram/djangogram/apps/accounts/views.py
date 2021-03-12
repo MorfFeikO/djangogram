@@ -193,17 +193,19 @@ def new_profile_view(request, pk=None):
 def operation_with_friends(request, pk, operation, picture_id=None):
     auth_user = request.user
     friend = User.objects.get(pk=pk)
-    if operation == 'add':
-        Friend.make_friend(auth_user, friend)
-        return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
-    elif operation == 'remove':
-        Friend.lose_friend(auth_user, friend)
-        return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
-    elif operation == 'like':
-        picture = get_object_or_404(UserPicture, id=picture_id)
-        picture.likes.add(request.user)
-        return JsonResponse({'like': picture.total_likes()}, status=200)
-    elif operation == 'dislike':
-        picture = get_object_or_404(UserPicture, id=picture_id)
-        picture.likes.remove(request.user)
-        return redirect(reverse('accounts:home'))
+    if request.method == 'GET':
+        if operation == 'add':
+            Friend.make_friend(auth_user, friend)
+            return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
+        elif operation == 'remove':
+            Friend.lose_friend(auth_user, friend)
+            return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
+        elif operation == 'dislike':
+            picture = get_object_or_404(UserPicture, id=picture_id)
+            picture.likes.remove(request.user)
+            return redirect(reverse('accounts:home'))
+    elif request.method == 'POST':
+        if operation == 'like':
+            picture = get_object_or_404(UserPicture, id=picture_id)
+            picture.likes.add(request.user)
+            return JsonResponse({'like': picture.total_likes()}, status=200)
