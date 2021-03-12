@@ -34,17 +34,13 @@
                                                         <button type="button"
                                                                 class="btn btn-danger"
                                                                 id="button_dislike"
-                                                                data-pk="{{ user.pk }}"
-                                                                data-operation="like"
-                                                                data-pic_id="{{ picture.id }}"
+                                                                data-url_change="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}"
                                                                 data-url="{% url 'accounts:like' pk=user.pk operation='dislike' picture_id=picture.id %}">Dislike</button>
                                                     {% else %}
                                                         <button type="button"
                                                                 class="btn btn-primary"
                                                                 id="button_like"
-                                                                data-pk="{{ user.pk }}"
-                                                                data-operation="dislike"
-                                                                data-pic_id="{{ picture.id }}"
+                                                                data-url_change="{% url 'accounts:like' pk=user.pk operation='dislike' picture_id=picture.id %}"
                                                                 data-url="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}">Like</button>
                                                     {% endif %}
                                                 </form>
@@ -80,16 +76,10 @@
         $('form').on('click', '#button_like', function(){
             const serializedData = $("#like_form").serialize();
             const url = $("#button_like").data('url');
+            const url_change = $("#button_like").data('url_change');
 
-            const pk = $("#button_like").data('pk');
-            const operation = 'dislike';
-            const pic_id = $("#button_like").data('pic_id');
-            let url2 = {% url 'accounts:like' pk=pk operation=operation picture_id=pic_id %};
-            console.log(url2)
-            console.log(pk)
-            console.log(operation)
-            console.log(pic_id)
             console.log(url)
+            console.log(url_change)
 
             $.ajax({
                 type: 'POST',
@@ -101,9 +91,7 @@
                     );
                     $('#button_like').replaceWith(
                          '<button type="button" class="btn btn-danger" id="button_dislike" ' +
-                        'data-url="{' + "% url 'accounts:like' pk=" + response['pk'] +
-                        " operation='dislike' picture_id=" + response['picture_id'] +
-                        ' %' + '}">Dislike</button>'
+                        'data-url_change="' + url + '"data-url="' + url_change + '">Dislike</button>'
                     );
                 },
                 error: function (xhr, errmsg, err) {
@@ -115,7 +103,10 @@
         $('form').on('click', '#button_dislike', function(){
             const serializedData = $("#like_form").serialize();
             const url = $("#button_dislike").data('url');
+            const url_change = $("#button_dislike").data('url_change');
+
             console.log(url)
+            console.log(url_change)
             $.ajax({
                 type: 'POST',
                 data: serializedData,
@@ -125,9 +116,8 @@
                         '<div id="like_count"><p> Likes: ' + response['like'] + '</p></div>'
                     );
                     $('#button_dislike').replaceWith(
-                         '<button type="button" class="btn btn-primary" id="button_like" data-url="{' +
-                        "% url 'accounts:like' pk=" + response['pk'] + " operation='like' picture_id=" +
-                        response['picture_id'] + ' %' + '}">Like</button>'
+                         '<button type="button" class="btn btn-primary" id="button_like" ' +
+                        'data-url_change="' + url + '"data-url="' + url_change + '">Like</button>'
                     );
                 },
                 error: function (xhr, errmsg, err) {
