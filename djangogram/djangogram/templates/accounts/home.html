@@ -40,14 +40,19 @@
 <-- Это кусок до изменений -->
 
 <-- Вот тут я вношу изменения в лайки -->
-                                            <div id="like_count"><p>{{ picture.total_likes }} Like{{ picture.total_likes|pluralize }}</p></div>
+                                            <div id="like_count">
+                                                <p> Likes: {{ picture.total_likes }}</p>
+                                            </div>
+
                                             {% if picture not in auth_user.userpicture_set.all%}
-                                                <form id="like_form" method="POST" data-url="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}">
+                                                <form id="like_form" method="POST">
                                                     {% csrf_token %}
                                                     {% if picture in auth_user.likes.all %}
-                                                        <button type="button" class="btn btn-danger" id="button_dislike">Dislike</button>
+                                                        <button type="button" class="btn btn-danger" id="button_dislike"
+                                                                data-url="{% url 'accounts:like' pk=user.pk operation='dislike' picture_id=picture.id %}">Dislike</button>
                                                     {% else %}
-                                                        <button type="button" class="btn btn-primary" id="button_like">Like</button>
+                                                        <button type="button" class="btn btn-primary" id="button_like"
+                                                                data-url="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}">Like</button>
                                                     {% endif %}
                                                 </form>
                                             {% endif %}
@@ -83,26 +88,26 @@
     <script type="text/javascript">
         $('#button_like').click(function(){
             var serializedData = $("#like_form").serialize();
-            var url = $("#like_form").data('url');
-            console.log(url)
+            var url = $("#button_like").data('url');
 
             $.ajax({
                 type: 'POST',
                 data: serializedData,
-
                 url: url,
                 success: function(response){
-                    $('#like_count').replaceWith("<p>" + response['like'] + "</p>");
-                    console.log(this.url)
+                    $('#like_count').replaceWith(
+                        '<div id="like_count"><p> Likes: ' + response['like'] + '</p></div>'
+                    );
+                    $('#button_like').replaceWith(
+                         '<button type="button" class="btn btn-danger" id="button_dislike" data-url="{' + "% url 'accounts:like' pk=" + response['pk'] + " operation='dislike' picture_id=" + response['picture_id'] + ' }">Dislike</button>'
+                    );
                 },
                 error: function (xhr, errmsg, err) {
                     console.log(xhr.status + ": " + xhr.responseText);
                 },
-
                 });
             });
     </script>
     <-- Скрипт -->
-
 
 {% endblock %}

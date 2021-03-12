@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc3c6b54-7156-496c-a78e-b755d9970549" name="Default Changelist" comment="Merge branch 'dev2' into dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/misc.xml">
-      <change beforePath="$PROJECT_DIR$/.idea/task-14.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/task-14.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/djangogram/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py" afterDir="false" />
@@ -126,7 +125,7 @@
       <workItem from="1615380543950" duration="6184000" />
       <workItem from="1615461537657" duration="13814000" />
       <workItem from="1615486063667" duration="2482000" />
-      <workItem from="1615542501556" duration="359000" />
+      <workItem from="1615542501556" duration="5050000" />
     </task>
     <servers />
   </component>
@@ -144,52 +143,6 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py</url>
-          <line>193</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py</url>
-          <line>194</line>
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py</url>
-          <line>206</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py</url>
-          <line>207</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py</url>
-          <line>208</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py</url>
-          <line>209</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py</url>
-          <line>210</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py</url>
-          <line>195</line>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/task_14$manage.coverage" NAME="manage Coverage Results" MODIFIED="1615485542938" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/djangogram" />

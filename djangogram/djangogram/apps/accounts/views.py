@@ -208,4 +208,16 @@ def operation_with_friends(request, pk, operation, picture_id=None):
         if operation == 'like':
             picture = get_object_or_404(UserPicture, id=picture_id)
             picture.likes.add(request.user)
-            return JsonResponse({'like': picture.total_likes()}, status=200)
+            return JsonResponse({'like': picture.total_likes(),
+                                 'pk': pk,
+                                 'operation': operation,
+                                 'picture_id': picture_id},
+                                status=200)
+        elif operation == 'dislike':
+            picture = get_object_or_404(UserPicture, id=picture_id)
+            picture.likes.remove(request.user)
+            return JsonResponse({'like': picture.total_likes(),
+                                 'pk': pk,
+                                 'operation': operation,
+                                 'picture_id': picture_id},
+                                status=200)
