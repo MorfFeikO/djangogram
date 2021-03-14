@@ -4,12 +4,19 @@
     <list default="true" id="bc3c6b54-7156-496c-a78e-b755d9970549" name="Default Changelist" comment="Merge branch 'dev2' into dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/misc.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/djangogram/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/djangogram/djangogram/templates/accounts/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/templates/accounts/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/templates/accounts/profile_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/templates/accounts/profile_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/templates/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
     <envs>
@@ -124,7 +131,8 @@
       <workItem from="1615380543950" duration="6184000" />
       <workItem from="1615461537657" duration="13814000" />
       <workItem from="1615486063667" duration="2482000" />
-      <workItem from="1615542501556" duration="14501000" />
+      <workItem from="1615542501556" duration="15150000" />
+      <workItem from="1615735308862" duration="6186000" />
     </task>
     <servers />
   </component>

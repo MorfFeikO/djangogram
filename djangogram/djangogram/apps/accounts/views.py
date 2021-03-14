@@ -217,3 +217,9 @@ def operation_with_friends(request, pk, operation, picture_id=None):
                                  'operation': operation,
                                  'picture_id': picture_id},
                                 status=200)
+        elif operation == 'add':
+            Friend.make_friend(auth_user, friend)
+            return JsonResponse({'success': 'success'}, status=200)
+        elif operation == 'remove':
+            Friend.lose_friend(auth_user, friend)
+            return JsonResponse({'success': 'success'}, status=200)

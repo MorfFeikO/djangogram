@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,40 +29,41 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             {% if request.user.is_authenticated %}
-        <div class="collapse navbar-collapse" id="navbarsExample07">
-          <ul class="navbar-nav mr-auto">
-
-                      <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:profile_page' %}">My profile page</a>
-                      </li>
-          </ul>
-              {% endif %}
-
-            <ul class="nav justify-content-end">
-            {% if request.user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
-                </li>
-            {% else %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login / Sign up</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'accounts:login' %}">Login</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'accounts:signup' %}">Sign up</a>
-                    </div>
-                </li>
+                <div class="collapse navbar-collapse" id="navbarsExample07">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:profile_page' %}">My profile page</a>
+                        </li>
+                    </ul>
             {% endif %}
-
+            <ul class="nav justify-content-end">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login / Sign up</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                             <a class="dropdown-item" href="{% url 'accounts:login' %}">Login</a>
+                             <div class="dropdown-divider"></div>
+                             <a class="dropdown-item" href="{% url 'accounts:signup' %}">Sign up</a>
+                        </div>
+                    </li>
+                {% endif %}
             </ul>
         </div>
       </div>
     </nav>
 
     {% block content %}
-
     {% endblock %}
+
+    <script src="{% static 'js/befriend.js' %}"></script>
+    <script src="{% static 'js/nofriend.js' %}"></script>
+    <script src="{% static 'js/like.js' %}"></script>
+    <script src="{% static 'js/dislike.js' %}"></script>
 
 </body>
 </html>
