@@ -182,8 +182,8 @@ def new_profile_view(request, pk=None):
         if form.is_valid():
             picture = form.save(commit=False)
             picture.user = request.user
-            picture.save()
-            return redirect(reverse('accounts:profile_page'))
+            form_pic = picture.save()
+            return JsonResponse({'picture': model_to_dict(form_pic)}, status=200)
         else:
             e = dict(form.errors)
             return render(request, 'accounts/errors.html', {'e': e})
@@ -193,14 +193,8 @@ def new_profile_view(request, pk=None):
 def operation_with_friends(request, pk, operation, picture_id=None):
     auth_user = request.user
     friend = User.objects.get(pk=pk)
-    if request.method == 'GET':
-        if operation == 'add':
-            Friend.make_friend(auth_user, friend)
-            return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
-        elif operation == 'remove':
-            Friend.lose_friend(auth_user, friend)
-            return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
-    elif request.method == 'POST':
+
+    if request.method == 'POST':
         if operation == 'like':
             picture = get_object_or_404(UserPicture, id=picture_id)
             picture.likes.add(request.user)

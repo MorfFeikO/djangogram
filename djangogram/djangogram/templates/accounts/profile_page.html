@@ -56,6 +56,8 @@
             <div class="col-md-8">
                 {% if auth_user.username == user.username %}
                     <div class="shadow-sm p-3 mb-5 bg-white rounded">
+
+                    <--Picture edit original-->
                         <form enctype="multipart/form-data" method="POST">
                             {% if user.is_authenticated %}
                                 {% csrf_token %}
@@ -63,13 +65,27 @@
                             {% endif %}
                             <p><input type="submit" value="Add Picture" id="submit"></p>
                         </form>
+                    <--Picture edit original-->
+
+                    <--Picture edit ajax change here-->
+                        <form id="picture_form" enctype="multipart/form-data" method="POST"
+                              data-url="{% url 'accounts:profile_page' %}">{% csrf_token %}
+                            {% if user.is_authenticated %}
+                                {{ form.as_p }}
+                            {% endif %}
+                            <p><input type="button" value="Add Picture" id="button_picture"></p>
+                        </form>
+                    <--Picture edit ajax change here-->
+
                     </div>
                 {% endif %}
 
 
                 {% if pictures %}
                     {% for picture in pictures %}
-                        <div class="row shadow-sm p-3 mb-5 bg-white rounded">
+                        <div class="row shadow-sm p-3 mb-5 bg-white rounded" id="picture_column">
+
+<-- Вот тут должен добавиться новый элемент -->
                             <div class="col-md">
                                 <p><img src="{{ picture.picture.url }}" alt="OOOps, where is picture?" width="150" height="180"></p>
                             </div>
@@ -80,6 +96,7 @@
                                <div id="like_count">
                                    <p> Likes: {{ picture.total_likes }}</p>
                                </div>
+<-- Вот тут должен добавиться новый элемент -->
 
                                {% if picture not in auth_user.userpicture_set.all%}
                                    <form id="like_form" method="POST">
