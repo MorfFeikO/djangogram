@@ -182,8 +182,8 @@ def new_profile_view(request, pk=None):
         if form.is_valid():
             picture = form.save(commit=False)
             picture.user = request.user
-            form_pic = picture.save()
-            return JsonResponse({'picture': model_to_dict(form_pic)}, status=200)
+            picture.save()
+            return JsonResponse({'picture': model_to_dict(form)}, status=200)
         else:
             e = dict(form.errors)
             return render(request, 'accounts/errors.html', {'e': e})
