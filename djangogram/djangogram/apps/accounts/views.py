@@ -21,6 +21,7 @@ from sendgrid import Mail, Email, To, Content
 from .models import UserProfile, UserPicture, Friend
 from .forms import SignUpForm, EditProfileForm, EditUserProfileForm, EditPictureForm
 
+from json import dumps
 import json
 import environ
 
@@ -181,9 +182,15 @@ def new_profile_view(request, pk=None):
         form = EditPictureForm(request.POST, request.FILES)
         if form.is_valid():
             picture = form.save(commit=False)
+
             picture.user = request.user
             picture.save()
-            return JsonResponse({'picture': model_to_dict(form)}, status=200)
+            pic = {'url': picture.picture.url,
+                   'picture_title': picture.picture_title,
+                   'pub_date': picture.pub_date.strftime("%B %d, %Y, %H:%M %p").replace('PM', 'p.m.').replace('AM', 'a.m.'),
+                   'total_likes': picture.total_likes()
+                   }
+            return JsonResponse({'picture': pic}, status=200)
         else:
             e = dict(form.errors)
             return render(request, 'accounts/errors.html', {'e': e})

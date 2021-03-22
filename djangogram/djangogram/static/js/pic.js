@@ -9,11 +9,6 @@ $(document).ready(function() {
         var dat = new FormData()
         dat.append('picture', picture);
         dat.append('picture_title', title)
-        console.log(serializedData);
-        console.log(csrftok);
-        console.log(picture);
-        console.log(title);
-        console.log(dat.values());
 
         $.ajax({
             type: 'POST',
@@ -25,18 +20,20 @@ $(document).ready(function() {
             contentType: false,
 
             success: function(response){
-                console.log(response['picture']);
                 $('#picture_column').prepend(
-                    '<div class="col-md"><p><img src="' + response['picture']['picture']['url'] +
+                    '<div class="row shadow-sm p-3 mb-5 bg-white rounded" id="picture_column">' +
+                    '<div class="col-md"><p><img src="' + response['picture']['url'] +
                     '" alt="OOOps, where is picture?" width="150" height="180"></p></div>' +
                     '<div class="col-md"><p>Title: ' + response['picture']['picture_title'] +
-                    '</p><p>Public date: ' + response['picture']['picture_pub_date'] + '</p>' +
-                    '<div id="like_count"><p> Likes: ' + response['picture']['total_likes'] + '</p></div></div>'
+                    '</p><p>Public date: ' + response['picture']['pub_date'] + '</p>' +
+                    '<div id="like_count"><p> Likes: ' + response['picture']['total_likes'] + '</p></div></div></div>'
                 );
+
             },
             error: function (xhr, errmsg, err) {
                 console.log(xhr.status + ": " + xhr.responseText);
             },
             });
+        $('#picture_form')[0].reset();
         });
     });

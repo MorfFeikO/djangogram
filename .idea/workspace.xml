@@ -5,7 +5,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/djangogram/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/pict.js" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/static/js/pict.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/pict.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/templates/accounts/profile_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/templates/accounts/profile_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/templates/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +135,8 @@
       <workItem from="1615832965960" duration="8822000" />
       <workItem from="1615918034167" duration="1792000" />
       <workItem from="1615919857120" duration="4777000" />
-      <workItem from="1616006049776" duration="7871000" />
+      <workItem from="1616006049776" duration="9493000" />
+      <workItem from="1616434196411" duration="7364000" />
     </task>
     <servers />
   </component>
