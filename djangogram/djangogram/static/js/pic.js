@@ -20,15 +20,26 @@ $(document).ready(function() {
             contentType: false,
 
             success: function(response){
-                $('#picture_column').prepend(
-                    '<div class="row shadow-sm p-3 mb-5 bg-white rounded" id="picture_column">' +
-                    '<div class="col-md"><p><img src="' + response['picture']['url'] +
-                    '" alt="OOOps, where is picture?" width="150" height="180"></p></div>' +
-                    '<div class="col-md"><p>Title: ' + response['picture']['picture_title'] +
-                    '</p><p>Public date: ' + response['picture']['pub_date'] + '</p>' +
-                    '<div id="like_count"><p> Likes: ' + response['picture']['total_likes'] + '</p></div></div></div>'
-                );
-
+                if($('#picture_column').length){
+                    $('#picture_column').prepend(
+                        '<div class="row shadow-sm p-3 mb-5 bg-white rounded" id="picture_column">' +
+                        '<div class="col-md"><p><img src="' + response['picture']['url'] +
+                        '" alt="OOOps, where is picture?" width="150" height="180"></p></div>' +
+                        '<div class="col-md"><p>Title: ' + response['picture']['picture_title'] +
+                        '</p><p>Public date: ' + response['picture']['pub_date'] + '</p>' +
+                        '<div id="like_count"><p> Likes: ' + response['picture']['total_likes'] + '</p></div></div></div>'
+                    );
+                }
+                else {
+                    $('#img_div').append(
+                        '<div class="row shadow-sm p-3 mb-5 bg-white rounded" id="picture_column">' +
+                        '<div class="col-md"><p><img src="' + response['picture']['url'] +
+                        '" alt="OOOps, where is picture?" width="150" height="180"></p></div>' +
+                        '<div class="col-md"><p>Title: ' + response['picture']['picture_title'] +
+                        '</p><p>Public date: ' + response['picture']['pub_date'] + '</p>' +
+                        '<div id="like_count"><p> Likes: ' + response['picture']['total_likes'] + '</p></div></div></div>'
+                    );
+                }
             },
             error: function (xhr, errmsg, err) {
                 console.log(xhr.status + ": " + xhr.responseText);
