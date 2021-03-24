@@ -53,9 +53,7 @@ INSTALLED_APPS = [
 ]
 
 if DEBUG:
-    EMAIL_BACKEND = (
-        'django.core.mail.backends.console.EmailBackend'
-    )
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 MAILER_EMAIL_BACKEND = EMAIL_BACKEND
@@ -148,7 +146,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_ROOT, 'static')
+]
 LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/profile_page/'

@@ -12,12 +12,17 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
+
 from sendgrid import SendGridAPIClient
 from sendgrid import Mail, Email, To, Content
 
 from .models import UserProfile, UserPicture, Friend
 from .forms import SignUpForm, EditProfileForm, EditUserProfileForm, EditPictureForm
 
+from json import dumps
+import json
 import environ
 
 UserModel = get_user_model()
@@ -43,16 +48,24 @@ def signup(request):
             })
             to_email = form.cleaned_data.get('email')
 
-            # Adding sendgrid
-            sg = SendGridAPIClient(api_key=env.str('SENDGRID_API_KEY'))
-            mail = Mail(
-                from_email=Email(env.str('EMAIL_HOST_USER')),
-                to_emails=To(to_email),
-                subject=mail_subject,
-                html_content=Content(mime_type='text/html', content=message)
-            )
-            sg.client.mail.send.post(request_body=mail.get())
-            # Adding sendgrid
+                # added debug=true
+            debug = env.bool('DEBUG')
+            if debug:
+                email = EmailMessage(mail_subject, message, to=[to_email])
+                email.send()
+            else:
+                # added debug=true
+
+                # Adding sendgrid
+                sg = SendGridAPIClient(api_key=env.str('SENDGRID_API_KEY'))
+                mail = Mail(
+                    from_email=Email(env.str('EMAIL_HOST_USER')),
+                    to_emails=To(to_email),
+                    subject=mail_subject,
+                    html_content=Content(mime_type='text/html', content=message)
+                )
+                sg.client.mail.send.post(request_body=mail.get())
+                # Adding sendgrid
 
             conf_msg = 'Please confirm your email address to complete registration!'
             return render(request, 'accounts/confirmation_signup.html', {'conf_msg': conf_msg})
@@ -169,9 +182,15 @@ def new_profile_view(request, pk=None):
         form = EditPictureForm(request.POST, request.FILES)
         if form.is_valid():
             picture = form.save(commit=False)
+
             picture.user = request.user
             picture.save()
-            return redirect(reverse('accounts:profile_page'))
+            pic = {'url': picture.picture.url,
+                   'picture_title': picture.picture_title,
+                   'pub_date': picture.pub_date.strftime("%B %d, %Y, %H:%M %p").replace('PM', 'p.m.').replace('AM', 'a.m.'),
+                   'total_likes': picture.total_likes()
+                   }
+            return JsonResponse({'picture': pic}, status=200)
         else:
             e = dict(form.errors)
             return render(request, 'accounts/errors.html', {'e': e})
@@ -181,22 +200,27 @@ def new_profile_view(request, pk=None):
 def operation_with_friends(request, pk, operation, picture_id=None):
     auth_user = request.user
     friend = User.objects.get(pk=pk)
-    if operation == 'add':
-        Friend.make_friend(auth_user, friend)
-    elif operation == 'remove':
-        Friend.lose_friend(auth_user, friend)
-    elif operation == 'like':
-        picture = get_object_or_404(UserPicture, id=picture_id)
-        picture.likes.add(request.user)
-    elif operation == 'dislike':
-        picture = get_object_or_404(UserPicture, id=picture_id)
-        picture.likes.remove(request.user)
-    return redirect(reverse('accounts:profile_page_friend', kwargs={'pk': pk}))
 
-
-def new_func_test_commit():
-    pass
-
-
-def new_2func_test_commit():
-    pass
+    if request.method == 'POST':
+        if operation == 'like':
+            picture = get_object_or_404(UserPicture, id=picture_id)
+            picture.likes.add(request.user)
+            return JsonResponse({'like': picture.total_likes(),
+                                 'pk': pk,
+                                 'operation': operation,
+                                 'picture_id': picture_id},
+                                status=200)
+        elif operation == 'dislike':
+            picture = get_object_or_404(UserPicture, id=picture_id)
+            picture.likes.remove(request.user)
+            return JsonResponse({'like': picture.total_likes(),
+                                 'pk': pk,
+                                 'operation': operation,
+                                 'picture_id': picture_id},
+                                status=200)
+        elif operation == 'add':
+            Friend.make_friend(auth_user, friend)
+            return JsonResponse({'success': 'success'}, status=200)
+        elif operation == 'remove':
+            Friend.lose_friend(auth_user, friend)
+            return JsonResponse({'success': 'success'}, status=200)

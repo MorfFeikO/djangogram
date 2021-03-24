@@ -22,18 +22,30 @@
                                             <p>Author: {{ picture.user.first_name }} {{ picture.user.last_name }}</p>
                                             <p>Title: {{ picture.picture_title }}</p>
                                             <p>Public date: {{ picture.pub_date }}</p>
-                                            <p>{{ picture.total_likes }} Like {{ picture.total.likes|pluralize }}</p>
+
+                                            <div id="like_count">
+                                                <p> Likes: {{ picture.total_likes }}</p>
+                                            </div>
+
                                             {% if picture not in auth_user.userpicture_set.all%}
-                                                {% if picture in auth_user.likes.all %}
-                                                    <a href="{% url 'accounts:like' pk=user.pk operation='dislike' picture_id=picture.id %}">
-                                                        <button type="submit" class="btn btn-danger">Dislike</button>
-                                                    </a>
-                                                {% else %}
-                                                    <a href="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}">
-                                                        <button type="submit" class="btn btn-primary">Like</button>
-                                                    </a>
-                                                {% endif %}
+                                                <form id="like_form" method="POST">
+                                                    {% csrf_token %}
+                                                    {% if picture in auth_user.likes.all %}
+                                                        <button type="button"
+                                                                class="btn btn-danger"
+                                                                id="button_dislike"
+                                                                data-url_change="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}"
+                                                                data-url="{% url 'accounts:like' pk=user.pk operation='dislike' picture_id=picture.id %}">Dislike</button>
+                                                    {% else %}
+                                                        <button type="button"
+                                                                class="btn btn-primary"
+                                                                id="button_like"
+                                                                data-url_change="{% url 'accounts:like' pk=user.pk operation='dislike' picture_id=picture.id %}"
+                                                                data-url="{% url 'accounts:like' pk=user.pk operation='like' picture_id=picture.id %}">Like</button>
+                                                    {% endif %}
+                                                </form>
                                             {% endif %}
+
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -59,8 +71,5 @@
         </div>
     </div>
 </div>
-
-
-
 
 {% endblock %}
