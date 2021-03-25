@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc3c6b54-7156-496c-a78e-b755d9970549" name="Default Changelist" comment="Merge branch 'dev2' into dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/misc.xml">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangogram/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/pic.js" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/static/js/pic.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/templates/accounts/profile_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/templates/accounts/profile_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/befriend.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/dislike.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/like.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/nofriend.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/pic.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +28,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="heroku-dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1pQvuyG02bUT66DdbziKtuxD84k" />
@@ -45,6 +51,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="Z:\Python\task-14-for-heroku" />
       <recent name="Z:\Python\task-14\djangogram\djangogram" />
     </key>
   </component>
