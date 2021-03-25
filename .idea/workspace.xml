@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc3c6b54-7156-496c-a78e-b755d9970549" name="Default Changelist" comment="Merge branch 'dev2' into dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/misc.xml">
-      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/befriend.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/dislike.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/like.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/nofriend.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/static/js/pic.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +49,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="Z:\Python\task-14-for-heroku\djangogram" />
       <recent name="Z:\Python\task-14-for-heroku" />
       <recent name="Z:\Python\task-14\djangogram\djangogram" />
     </key>
@@ -72,7 +71,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/djangogram/manage.py" />
+      <option name="SCRIPT_NAME" value="Z:\Python\task-14-for-heroku\djangogram\manage.py" />
       <option name="PARAMETERS" value="runserver" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
