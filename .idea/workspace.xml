@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bc3c6b54-7156-496c-a78e-b755d9970549" name="Default Changelist" comment="Merge branch 'dev2' into dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/misc.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/Procfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,10 +26,11 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="heroku-dev" />
+        <entry key="$PROJECT_DIR$" value="bd09bb3c1bb743660e3dc396266ce99a57f30f63" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="ProjectId" id="1pQvuyG02bUT66DdbziKtuxD84k" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -48,8 +48,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="Z:\Python\task-14-for-heroku\djangogram" />
       <recent name="Z:\Python\task-14-for-heroku" />
+      <recent name="Z:\Python\task-14-for-heroku\djangogram" />
       <recent name="Z:\Python\task-14\djangogram\djangogram" />
     </key>
   </component>
@@ -111,6 +111,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.127.0.0.1:8000" />
         <item itemvalue="JavaScript Debug.127.0.0.1:8000" />
       </list>
     </recent_temporary>
