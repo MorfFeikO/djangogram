@@ -1,1 +1,1 @@
-web: gunicorn djangogram.djangogram.wsgi
+web: gunicorn djangogram.wsgi
