@@ -75,7 +75,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'djangogram.urls'
+ROOT_URLCONF = 'djangogram.djangogram.urls'
 
 TEMPLATES = [
     {
