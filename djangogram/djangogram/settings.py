@@ -29,11 +29,9 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '=gt@q4-=e$0u2_%%h1n_tzzigkh_5sv%eg4has+jm!c$9n*yv5'
 SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
 DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = [env.str('ALLOWED_HOSTS')]
@@ -75,7 +73,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'djangogram.djangogram.urls'
+ROOT_URLCONF = 'djangogram.urls'
 
 TEMPLATES = [
     {

@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="bc3c6b54-7156-496c-a78e-b755d9970549" name="Default Changelist" comment="Merge branch 'dev2' into dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/misc.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/wsgi.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,10 +46,13 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/djangogram/djangogram/settings.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/djangogram/djangogram/apps/accounts" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="Z:\Python\task-14-for-heroku\djangogram\djangogram\apps\accounts" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="Z:\Python\task-14-for-heroku" />
       <recent name="Z:\Python\task-14-for-heroku\djangogram" />
@@ -54,7 +60,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Django Server.GRAM">
-    <configuration name="127.0.0.1:8000" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://127.0.0.1:8000/">
+    <configuration name="127.0.0.1:8000" type="JavascriptDebugType" nameIsGenerated="true" uri="http://127.0.0.1:8000/">
       <method v="2" />
     </configuration>
     <configuration name="manage" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
@@ -85,7 +91,6 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DJANGO_SETTING_MODULE" value="djangogram.settings" />
         <env name="DJANGO_SETTINGS_MODULE" value="djangogram.settings" />
       </envs>
       <option name="SDK_HOME" value="C:\Users\User\task-14\Scripts\python.exe" />
@@ -111,7 +116,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JavaScript Debug.127.0.0.1:8000" />
         <item itemvalue="JavaScript Debug.127.0.0.1:8000" />
       </list>
     </recent_temporary>
@@ -141,6 +145,7 @@
       <workItem from="1615919857120" duration="4777000" />
       <workItem from="1616006049776" duration="9493000" />
       <workItem from="1616434196411" duration="8864000" />
+      <workItem from="1617123908272" duration="1277000" />
     </task>
     <servers />
   </component>
