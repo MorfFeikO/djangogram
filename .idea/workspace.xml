@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="bc3c6b54-7156-496c-a78e-b755d9970549" name="Default Changelist" comment="Merge branch 'dev2' into dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/misc.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/Procfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/models.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,10 +62,10 @@
       <recent name="Z:\Python\task-14-for-heroku\djangogram\djangogram\apps\accounts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="Z:\Python\task-14-for-heroku\djangogram\djangogram" />
+      <recent name="Z:\Python\task-14-for-heroku\djangogram" />
       <recent name="Z:\Python\task-14-for-heroku" />
       <recent name="Z:\Python\task-14-for-heroku\djangogram\djangogram\apps" />
-      <recent name="Z:\Python\task-14-for-heroku\djangogram" />
-      <recent name="Z:\Python\task-14-for-heroku\djangogram\djangogram" />
       <recent name="Z:\Python\task-14\djangogram\djangogram" />
     </key>
   </component>
@@ -153,7 +156,7 @@
       <workItem from="1616006049776" duration="9493000" />
       <workItem from="1616434196411" duration="8864000" />
       <workItem from="1617123908272" duration="3866000" />
-      <workItem from="1617294087631" duration="2789000" />
+      <workItem from="1617294087631" duration="3526000" />
     </task>
     <servers />
   </component>
