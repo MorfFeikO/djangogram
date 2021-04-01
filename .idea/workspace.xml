@@ -2,7 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc3c6b54-7156-496c-a78e-b755d9970549" name="Default Changelist" comment="Merge branch 'dev2' into dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/misc.xml">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/0002_auto_20201218_1256.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/0002_auto_20201218_1256.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/0003_auto_20201224_2053.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/0003_auto_20201224_2053.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/0004_auto_20201224_2117.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/0004_auto_20201224_2117.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/0005_auto_20201224_2122.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/0005_auto_20201224_2122.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/0006_auto_20201225_1212.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/0006_auto_20201225_1212.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/0007_auto_20201225_1332.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/0007_auto_20201225_1332.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/0008_friend.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/0008_friend.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/0009_auto_20210202_2019.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/0009_auto_20210202_2019.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/0010_delete_like.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/0010_delete_like.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/migrations/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/apps/accounts/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogram/djangogram/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogram/djangogram/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11,6 +37,13 @@
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
     <envs>
@@ -51,9 +84,10 @@
       <recent name="Z:\Python\task-14-for-heroku\djangogram\djangogram\apps\accounts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="Z:\Python\task-14-for-heroku\djangogram\djangogram\apps" />
+      <recent name="Z:\Python\task-14-for-heroku" />
       <recent name="Z:\Python\task-14-for-heroku\djangogram" />
       <recent name="Z:\Python\task-14-for-heroku\djangogram\djangogram" />
-      <recent name="Z:\Python\task-14-for-heroku" />
       <recent name="Z:\Python\task-14\djangogram\djangogram" />
     </key>
   </component>
@@ -143,7 +177,8 @@
       <workItem from="1615919857120" duration="4777000" />
       <workItem from="1616006049776" duration="9493000" />
       <workItem from="1616434196411" duration="8864000" />
-      <workItem from="1617123908272" duration="3295000" />
+      <workItem from="1617123908272" duration="3866000" />
+      <workItem from="1617294087631" duration="1245000" />
     </task>
     <servers />
   </component>

@@ -40,7 +40,7 @@ ALLOWED_HOSTS = [env.str('ALLOWED_HOSTS')]
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts.apps.AccountsConfig',
+    'djangogram.apps.accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
